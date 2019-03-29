@@ -9,6 +9,8 @@ import LOCAL_TASTING_SESSION from "../../graphql/queries/LOCAL_TASTING_SESSION";
 
 import Button from '@material-ui/core/Button';
 
+import styles from './Home.module.css';
+
 class Home extends Component {
   state = {
     isOpen: false,
@@ -42,6 +44,7 @@ class Home extends Component {
         >
           {postMutation => (
             <Button
+              className={styles.section}
               variant="contained"
               color="primary"
               size="small"

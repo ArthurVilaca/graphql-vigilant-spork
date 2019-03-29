@@ -3,6 +3,8 @@ type WineTaster {
   name: String! @unique
   nationality: String
   gender: Gender
+  email: String
+  facebook: String
   age: Int
   favouriteWine: Wine
   reviews: [Review!]!
@@ -25,6 +27,8 @@ type Review {
   tastingSession: TastingSession!
   score: Int
   tastingNotes: [TastingNotes]
+  predictedPrice: Float
+  predictedYear: Int
 }
 
 type TastingSession {

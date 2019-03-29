@@ -20,6 +20,8 @@ class CreateWineTaster extends Component {
     gender: "MALE",
     age: undefined,
     favouriteWine: undefined,
+    email: "",
+    facebook: "",
   };
 
   toggle = () => {
@@ -49,6 +51,8 @@ class CreateWineTaster extends Component {
       gender,
       age,
       favouriteWine,
+      email,
+      facebook,
     } = this.state;
     return (
       <div>
@@ -91,6 +95,22 @@ class CreateWineTaster extends Component {
               type="number"
             />
 
+            <TextField
+              className={styles.textField}
+              label="email"
+              value={email}
+              onChange={this.handleChange('email')}
+              margin="normal"
+            />
+
+            <TextField
+              className={styles.textField}
+              label="facebook"
+              value={facebook}
+              onChange={this.handleChange('facebook')}
+              margin="normal"
+            />
+
             <ListWines
               childCB={id => this.setState({ favouriteWine: id })}
               placeholder="Favourite Wine"
@@ -121,6 +141,8 @@ class CreateWineTaster extends Component {
                   gender: "MALE",
                   age: undefined,
                   favouriteWine: undefined,
+                  email: "",
+                  facebook: "",
                 })
               }
             >

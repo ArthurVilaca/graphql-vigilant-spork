@@ -1,0 +1,11 @@
+.list {
+    display: "flex";
+    flex-direction: "row";
+    justify-content: "space-evenly";
+}
+
+.submit {
+    padding: "10px";
+    margin: "30px";
+    width: "800px";
+}

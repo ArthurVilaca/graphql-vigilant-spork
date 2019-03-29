@@ -6,6 +6,8 @@ const CREATE_WINE_TASTER = gql`
     $gender: Gender
     $age: Int
     $favouriteWine: ID
+    $email: String
+    $facebook: String
   ) {
     createWineTaster(
       data: {
@@ -13,6 +15,8 @@ const CREATE_WINE_TASTER = gql`
         nationality: $nationality
         gender: $gender
         age: $age
+        email: $email
+        facebook: $facebook
         favouriteWine: { connect: { id: $favouriteWine } }
       }
     ) {
@@ -21,6 +25,8 @@ const CREATE_WINE_TASTER = gql`
       nationality
       gender
       age
+      email
+      facebook
       favouriteWine {
         id
         name

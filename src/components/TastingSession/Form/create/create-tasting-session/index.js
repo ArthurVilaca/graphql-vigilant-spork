@@ -34,19 +34,15 @@ const CreateTastingSession = props => {
         return (
           <div>
             <h3>Create New Tasting Session</h3>
+            <hr />
 
-            <ol
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-              }}
-            >
+            <b>wines</b>
+            <ol className={styles.list}>
               {sessionWines
                 ? sessionWines.map((wine, i) => {
                   return (
                     <li key={`sessionWine${i}`} style={{ listStyle: "none" }}>
-                      {wine.name}
+                      Name: {wine.name} - Price: ${wine.price} - Year: {wine.year}
                     </li>
                   );
                 })
@@ -73,14 +69,8 @@ const CreateTastingSession = props => {
                   return (
                     <li key={`sessionTasters${i}`}>
                       <div>
-                        {taster.name}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
+                        Taster Name: {taster.name}
+                        <div className={styles.list}>
                           {sessionWines.map((wine, i) => {
                             return (
                               <div key={`${taster.name}wine${i}`}>
@@ -118,12 +108,7 @@ const CreateTastingSession = props => {
               {postMutation => (
                 <button
                   onClick={postMutation}
-                  style={{
-                    padding: "10px",
-                    margin: "30px",
-                    width: "800px",
-                  }}
-                >
+                  className={styles.submit} >
                   Submit Form
                 </button>
               )}
