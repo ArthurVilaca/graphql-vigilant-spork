@@ -24,35 +24,38 @@ class Home extends Component {
     const { isOpen } = this.state;
     return (
       <React.Fragment>
-        <Mutation
-          variables={{
-            date: new Date()
-          }}
-          onCompleted={() => {
-            this.setState({
-              isOpen: true,
-            });
-          }}
-          mutation={CREATE_TASTING_SESSION}
-          update={(cache, { data }) => {
-            const localData = cache.readQuery({ query: LOCAL_TASTING_SESSION });
-            cache.writeQuery({
-              query: LOCAL_TASTING_SESSION,
-              data: { ...localData, sessionID: data.createTastingSession.id },
-            });
-          }}
-        >
-          {postMutation => (
-            <Button
-              className={styles.section}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={isOpen ? null : postMutation}
-            >Create New Tasting Session</Button>
-          )}
-        </Mutation>
-        {isOpen ? <CreateTastingSession toggle={this.toggle} /> : <ListTastingSessions />}
+        {!isOpen ?
+          <Mutation
+            variables={{
+              date: new Date()
+            }}
+            onCompleted={() => {
+              this.setState({
+                isOpen: true,
+              });
+            }}
+            mutation={CREATE_TASTING_SESSION}
+            update={(cache, { data }) => {
+              const localData = cache.readQuery({ query: LOCAL_TASTING_SESSION });
+              cache.writeQuery({
+                query: LOCAL_TASTING_SESSION,
+                data: { ...localData, sessionID: data.createTastingSession.id },
+              });
+            }}
+          >
+            {postMutation => (
+              <Button
+                className={styles.section}
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={isOpen ? null : postMutation}
+              >Create New Tasting Session</Button>
+            )}
+          </Mutation>
+          : null
+        }
+        {isOpen ? <CreateTastingSession toggle={this.toggle} /> : <ListTastingSessions toggle={this.toggle} />}
       </React.Fragment>
     );
   }

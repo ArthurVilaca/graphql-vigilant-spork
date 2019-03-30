@@ -5,10 +5,43 @@ const ALL_TASTING_SESSION = gql`
       id
       date
       wines {
+        id
         name
+        grapes
+        winery
+        year
+        alcohol
+        price
       }
       wineTasters {
+        id
         name
+        nationality
+        gender
+        email
+        facebook
+        age
+        favouriteWine {
+          name
+        }
+      }
+      reviews {
+        id
+        wine {
+          id
+          name
+        }
+        wineTaster {
+          id
+          name
+        }
+        tastingSession {
+          id
+        }
+        score
+        predictedPrice
+        predictedYear
+        tastingNotes
       }
     }
 }

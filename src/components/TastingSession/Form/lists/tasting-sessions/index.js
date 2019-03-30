@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, compose, Query, withApollo } from "react-apollo";
+import { Query, Mutation, compose, withApollo } from "react-apollo";
 import moment from 'moment'
 
 import styles from './tasting-sessions.module.css'
@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import ALL_TASTING_SESSION from "../../../../../graphql/queries/ALL_TASTING_SESSION";
 import DELETE_TASTING_SESSION from "../../../../../graphql/mutations/DELETE_TASTING_SESSION";
+import LOCAL_TASTING_SESSION from "../../../../../graphql/queries/LOCAL_TASTING_SESSION";
 
 const ListTastingSessions = props => {
   return (
@@ -23,7 +24,7 @@ const ListTastingSessions = props => {
         return (
           <div>
             {
-              tastingSessions.map(session => {
+              tastingSessions.map((session, idx) => {
                 return (
                   <Card key={session.id} className={styles.card}>
                     <CardContent>
@@ -31,42 +32,72 @@ const ListTastingSessions = props => {
                       <p>DATE: {session.date ? moment(session.date).format("MMM Do YY") : ''}</p>
 
                       {
-                        session.wines.map(wine => {
+                        session.wines.map((wine, id) => {
                           return (
-                            <p>WINE: {wine.name}</p>
+                            <p key={id}>WINE: {wine.name}</p>
                           )
                         })
                       }
 
                       {
-                        session.wineTasters.map(taster => {
+                        session.wineTasters.map((taster, id) => {
                           return (
-                            <p>TASTER: {taster.name}</p>
+                            <p key={id}>TASTER: {taster.name}</p>
                           )
                         })
                       }
 
                     </CardContent>
                     <CardActions>
-                      <Button variant="contained" color="primary" size="small" disabled >Update</Button>
+
                       <Button
+                        className={styles.section}
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         size="small"
                         onClick={() => {
-                          props.deleteTastingSession({
-                            variables: { id: session.id },
+                          props.client.cache.writeQuery({
+                            query: LOCAL_TASTING_SESSION,
+                            data: { ...session, sessionID: session.id,
+                              sessionWines: session.wines,
+                              sessionWineTasters: session.wineTasters,
+                              sessionReviews: session.reviews
+                            }
                           });
-                          console.log(props)
-                        }}>Delete</Button>
+                          props.toggle()
+                        }}
+                      >Update</Button>
+
+                      <Mutation
+                        variables={{
+                          id: session.id
+                        }}
+                        mutation={DELETE_TASTING_SESSION}
+                        update={(cache, { data }) => {
+                          const { tastingSessions } = cache.readQuery({ query: ALL_TASTING_SESSION });
+                          tastingSessions.splice(idx, 1)
+                          cache.writeQuery({
+                            query: ALL_TASTING_SESSION,
+                            data: { tastingSessions: tastingSessions },
+                          });
+                        }}
+                      >
+                        {postMutation => (
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={postMutation}>
+                            Delete</Button>
+                        )}
+                      </Mutation>
+
                     </CardActions>
                   </Card>
                 )
               })
             }
-            <div>
 
-            </div>
           </div>
         );
       }}
@@ -74,5 +105,7 @@ const ListTastingSessions = props => {
   );
 };
 
-export default compose(graphql(DELETE_TASTING_SESSION, { name: "deleteTastingSession" }))(ListTastingSessions);
-// export default withApollo(compose(graphql(DELETE_TASTING_SESSION, { name: "deleteTastingSession" })))(ListTastingSessions);
+// export default compose(graphql(DELETE_TASTING_SESSION, { name: "deleteTastingSession" }))(ListTastingSessions);
+export default compose(
+  withApollo
+)(ListTastingSessions);

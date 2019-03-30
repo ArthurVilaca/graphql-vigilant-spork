@@ -103,19 +103,19 @@ class CreateReview extends Component {
             </Select>
           </FormControl>
 
+          <Mutation
+            mutation={CREATE_REVIEW}
+            variables={{
+              wine,
+              wineTaster,
+              tastingSession,
+              score,
+              tastingNotes,
+            }}
+          >
+            {postMutation => <button onClick={postMutation}>Submit</button>}
+          </Mutation>
         </div>
-        <Mutation
-          mutation={CREATE_REVIEW}
-          variables={{
-            wine,
-            wineTaster,
-            tastingSession,
-            score,
-            tastingNotes,
-          }}
-        >
-          {postMutation => <button onClick={postMutation}>Submit</button>}
-        </Mutation>
       </div>
     );
   }

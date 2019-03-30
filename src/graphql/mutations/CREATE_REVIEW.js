@@ -5,7 +5,7 @@ const CREATE_REVIEW = gql`
     $wineTaster: ID!
     $tastingSession: ID!
     $score: Int
-    $predictedPrice: Int
+    $predictedPrice: Float
     $predictedYear: Int
     $tastingNotes: [TastingNotes!]
   ) {
