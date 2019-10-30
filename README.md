@@ -1,3 +1,4 @@
+# deprecated
 # Frontend Engineering Coding Challenge
 
 ## Context
