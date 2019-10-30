@@ -1,4 +1,4 @@
-# deprecated
+# DEPRECATED
 # Frontend Engineering Coding Challenge
 
 ## Context
